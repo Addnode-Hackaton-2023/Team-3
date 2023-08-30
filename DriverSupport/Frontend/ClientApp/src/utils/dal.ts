@@ -6,8 +6,7 @@ export interface IStop {
     contact: string,
     notes: string,
     duration: number,
-    latitude: number,
-    longitude: number,
+    point: any,
     image: string,
     movieUrl: string
   }

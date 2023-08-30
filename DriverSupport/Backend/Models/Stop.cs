@@ -24,10 +24,7 @@ public partial class Stop
     public Geometry Position { get; set; } = null!;
 
     [NotMapped]
-    public double? Latitude { get { return (Position as Point)?.Y; } }
-
-    [NotMapped]
-    public double? Longitude { get { return (Position as Point)?.X; } }
+    public Esri.Point Point { get { return new Esri.Point() { X = ((Point)Position).X, Y = ((Point)Position).Y }; } }
 
     public byte[]? Image { get; set; }
 
