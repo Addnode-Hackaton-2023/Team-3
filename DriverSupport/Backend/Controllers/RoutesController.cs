@@ -17,13 +17,16 @@ namespace Backend.Controllers
         }
 
         // GET: api/Routes
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Route>>> GetRoutes()
+        [HttpGet()]
+        public async Task<ActionResult<IEnumerable<Route>>> GetRoutes(Guid? vehicleId = null)
         {
-          if (_context.Routes == null)
-          {
-              return NotFound();
-          }
+            if (_context.Routes == null)
+            {
+                return NotFound();
+            }
+            if (vehicleId != null) {
+                return await _context.Routes.Where(r => r.VehicleId == vehicleId).ToListAsync();
+            }
             return await _context.Routes.ToListAsync();
         }
 
