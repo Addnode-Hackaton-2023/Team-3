@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './main.css'
 import Login from './components/login';
-import Home from './components/home';
+import Vehicle from './components/vehicle';
 import { QueryClient, QueryClientProvider } from 'react-query'
 
 const queryClient = new QueryClient()
@@ -15,8 +15,8 @@ const router = createBrowserRouter([
     element: <Login />
   },
   {
-    path: "/home",
-    element: <Home />
+    path: "/vehicle/:vehicleId",
+    element: <Vehicle />,
   },
 ]);
 
