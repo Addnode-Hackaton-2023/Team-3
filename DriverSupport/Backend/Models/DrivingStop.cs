@@ -10,6 +10,8 @@ public partial class DrivingStop
 
     public Guid StopId { get; set; }
 
+    public int Ordinal { get; set; }
+
     public int? Weight { get; set; }
 
     public int? Duration { get; set; }
@@ -21,6 +23,5 @@ public partial class DrivingStop
     [JsonIgnore]
     public virtual Driving Driving { get; set; } = null!;
 
-    [JsonIgnore]
     public virtual Stop Stop { get; set; } = null!;
 }

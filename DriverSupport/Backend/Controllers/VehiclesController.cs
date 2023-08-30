@@ -24,10 +24,10 @@ namespace Backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Vehicle>>> GetVehicles()
         {
-          if (_context.Vehicles == null)
-          {
-              return NotFound();
-          }
+            if (_context.Vehicles == null)
+            {
+                return NotFound();
+            }
             return await _context.Vehicles.ToListAsync();
         }
 
@@ -35,10 +35,10 @@ namespace Backend.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Vehicle>> GetVehicle(Guid id)
         {
-          if (_context.Vehicles == null)
-          {
-              return NotFound();
-          }
+            if (_context.Vehicles == null)
+            {
+                return NotFound();
+            }
             var vehicle = await _context.Vehicles.FindAsync(id);
 
             if (vehicle == null)
@@ -47,6 +47,64 @@ namespace Backend.Controllers
             }
 
             return vehicle;
+        }
+
+        [HttpGet("{id}/Driving")]
+        public async Task<ActionResult<Driving>> GetVehicleDriving(Guid id)
+        {
+            if (_context.Vehicles == null || _context.Drivings == null || _context.Routes == null)
+            {
+                return NotFound();
+            }
+            var vehicle = await _context.Vehicles.FindAsync(id);
+
+            if (vehicle == null)
+            {
+                return NotFound();
+            }
+
+            var driving = await _context.Drivings.
+                Include(d => d.DrivingStops.OrderBy(r => r.Ordinal)).
+                ThenInclude(ds => ds.Stop).
+                FirstOrDefaultAsync(d => d.VehicleId == id && d.Date == DateTime.Today);
+
+            if (driving == null)
+            {
+                var route = await _context.Routes.Include(r => r.RouteStops).FirstOrDefaultAsync(d => d.VehicleId == id);
+                if (route == null)
+                {
+                    return NotFound();
+                }
+
+                driving = new Driving();
+                driving.Id = Guid.NewGuid();
+                driving.Date = DateTime.Today;
+                driving.Route = route;
+                driving.Vehicle = vehicle;
+                _context.Drivings.Add(driving);
+
+                await _context.SaveChangesAsync();
+
+                foreach (RouteStop rs in route.RouteStops.OrderBy(r => r.Ordinal))
+                {
+                    var drivingStop = new DrivingStop()
+                    {
+                        DrivingId = driving.Id,
+                        StopId = rs.StopId,
+                        Ordinal = rs.Ordinal
+                    };
+                    _context.DrivingStops.Add(drivingStop);
+                }
+
+                await _context.SaveChangesAsync();
+
+                driving = await _context.Drivings.
+                    Include(d => d.DrivingStops.OrderBy(r => r.Ordinal)).
+                    ThenInclude(ds => ds.Stop).
+                    FirstAsync(d => d.VehicleId == id && d.Date == DateTime.Today);
+            }
+
+            return driving;
         }
 
         // PUT: api/Vehicles/5
@@ -85,10 +143,10 @@ namespace Backend.Controllers
         [HttpPost]
         public async Task<ActionResult<Vehicle>> PostVehicle(Vehicle vehicle)
         {
-          if (_context.Vehicles == null)
-          {
-              return Problem("Entity set 'AddHack3Context.Vehicles'  is null.");
-          }
+            if (_context.Vehicles == null)
+            {
+                return Problem("Entity set 'AddHack3Context.Vehicles'  is null.");
+            }
             _context.Vehicles.Add(vehicle);
             try
             {

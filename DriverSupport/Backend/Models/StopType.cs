@@ -2,7 +2,8 @@
 {
     public enum StopType : byte
     {
-        Retrieve = 0,
-        Leave = 1
+        Depot = 0,
+        Retrieve = 1,
+        Leave = 2
     }
 }

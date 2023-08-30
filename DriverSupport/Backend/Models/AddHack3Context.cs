@@ -50,7 +50,7 @@ public partial class AddHack3Context : DbContext
 
         modelBuilder.Entity<DrivingStop>(entity =>
         {
-            entity.HasKey(e => new { e.DrivingId, e.StopId });
+            entity.HasKey(e => new { e.DrivingId, e.StopId, e.Ordinal });
 
             entity.ToTable("DrivingStop", "dbo");
 
@@ -81,7 +81,7 @@ public partial class AddHack3Context : DbContext
 
         modelBuilder.Entity<RouteStop>(entity =>
         {
-            entity.HasKey(e => new { e.RouteId, e.StopId });
+            entity.HasKey(e => new { e.RouteId, e.StopId, e.Ordinal });
 
             entity.ToTable("RouteStop", "dbo");
 
