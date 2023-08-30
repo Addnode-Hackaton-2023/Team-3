@@ -5,7 +5,7 @@ import { CarOutlined } from '@ant-design/icons';
 import { useQuery } from 'react-query'
 
 
-interface IVehivles {
+export interface IVehivles {
     id: string,
     name: string,
 }
@@ -18,24 +18,25 @@ const Login = () => {
     ) 
   )
 
-  console.log(data)
   return (
-    data ? <List
-    itemLayout="horizontal"
-    dataSource={data}
-    renderItem={(item) => (
-      <List.Item>
-        <Skeleton loading={isLoading}>
-        <List.Item.Meta
-          avatar={<Avatar src={<CarOutlined />} />}
-          title={<a href="https://ant.design">{item.name}</a>}
-          description="Beskrivning av fordon"
-        />
-        <Button style={{margin: '0 15px'}} onClick={() => navigate('home')}>Välj</Button>
-      </Skeleton>
-      </List.Item>
-  )}
-  /> : null)
+    <div style={{padding: '5px 10px'}}>
+      {data ? <List
+      itemLayout="horizontal"
+      dataSource={data}
+      renderItem={(item) => (
+        <List.Item>
+          <Skeleton loading={isLoading}>
+          <List.Item.Meta
+            avatar={<Avatar icon={<CarOutlined />} />}
+            title={<span>{item.name}</span>}
+            description="Beskrivning av fordon"
+          />
+          <Button style={{margin: '0 5px'}} onClick={() => navigate(`vehicle/${item.id}`)}>Välj</Button>
+        </Skeleton>
+        </List.Item>
+    )}
+  /> : null}
+  </div>)
 }
 
 export default Login;
