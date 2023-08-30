@@ -66,11 +66,14 @@ namespace Backend.Controllers
             var driving = await _context.Drivings.
                 Include(d => d.DrivingStops.OrderBy(r => r.Ordinal)).
                 ThenInclude(ds => ds.Stop).
+                Include(d => d.Route).
                 FirstOrDefaultAsync(d => d.VehicleId == id && d.Date == DateTime.Today);
 
             if (driving == null)
             {
-                var route = await _context.Routes.Include(r => r.RouteStops).FirstOrDefaultAsync(d => d.VehicleId == id);
+                var route = await _context.Routes.
+                    Include(r => r.RouteStops).
+                    FirstOrDefaultAsync(d => d.VehicleId == id);
                 if (route == null)
                 {
                     return NotFound();
@@ -101,6 +104,7 @@ namespace Backend.Controllers
                 driving = await _context.Drivings.
                     Include(d => d.DrivingStops.OrderBy(r => r.Ordinal)).
                     ThenInclude(ds => ds.Stop).
+                    Include(d => d.Route).
                     FirstAsync(d => d.VehicleId == id && d.Date == DateTime.Today);
             }
 
