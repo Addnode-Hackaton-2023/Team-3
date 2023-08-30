@@ -40,9 +40,9 @@ const Vehicle = () => {
       <div style={{position: 'fixed', bottom: 0, left: 5, height: '50px', width: '100%', background: 'white'}}>
         <Row >
           <Col style={{textAlign: 'center'}} span={11}>
-            <UnorderedListOutlined style={{fontSize: '2rem'}}  />
+            <UnorderedListOutlined onClick={() => navigate(`../vehicle/${params.vehicleId}`)} style={{fontSize: '2rem'}}  />
           </Col>
-          <Divider style={{fontSize: '2.3rem'}} type="vertical" span={2}/>
+          <Divider style={{fontSize: '2.3rem'}} type="vertical"/>
           <Col style={{textAlign: 'center'}} span={11}>
             <GlobalOutlined onClick={() => navigate(`../map/${params.vehicleId}`)} style={{fontSize: '2rem'}}  />
           </Col>
