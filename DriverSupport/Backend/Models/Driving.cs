@@ -1,5 +1,7 @@
-﻿using System;
+﻿using NetTopologySuite.Geometries;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Backend.Models;
@@ -15,6 +17,24 @@ public partial class Driving
     public DateTime? Date { get; set; }
 
     public int? Duration { get; set; }
+
+    [NotMapped]
+    public string RouteName
+    {
+        get
+        {
+            return Route?.Name;
+        }
+    }
+
+    [NotMapped]
+    public Esri.Polyline RoutePolyline
+    {
+        get
+        {
+            return Route?.Polyline;
+        }
+    }
 
     public virtual ICollection<DrivingStop> DrivingStops { get; set; } = new List<DrivingStop>();
 
