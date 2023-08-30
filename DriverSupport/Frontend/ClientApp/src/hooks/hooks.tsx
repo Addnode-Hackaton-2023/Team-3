@@ -10,7 +10,6 @@ export const useCreateMap = (mapRef: MutableRefObject<HTMLDivElement | null>) =>
       const map = new Map({ basemap: 'satellite'});
       view = new MapView({
         map: map,
-        zoom: 13,
         container: mapRef.current!
       });
     };

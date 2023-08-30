@@ -7,11 +7,12 @@ import { useCreateMap } from "../hooks/hooks";
 const Map = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const mapRef = useRef<HTMLDivElement>(null);
-  useCreateMap(mapRef)
+  const mapDiv = useRef(null);
+  useCreateMap(mapDiv);
+
   return (
     <>
-    <div className="map-view" ref={mapRef}></div>
+    <div className="mapDiv" style={{ height: '500px'}} ref={mapDiv}></div>
     <Row>
       <Col>
         <Button onClick={() => navigate(`../vehicle/${params.vehicleId}`)}>List</Button>

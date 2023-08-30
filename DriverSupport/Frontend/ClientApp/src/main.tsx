@@ -21,7 +21,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/map/:vehicleId",
-    element: <Map />,
+    element: <Map />
   },
 ]);
 
