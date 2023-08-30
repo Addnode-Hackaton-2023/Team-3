@@ -10,7 +10,7 @@ public partial class Stop
 
     public string Name { get; set; } = null!;
 
-    public byte Type { get; set; }
+    public StopType Type { get; set; }
 
     public string Address { get; set; } = null!;
 
