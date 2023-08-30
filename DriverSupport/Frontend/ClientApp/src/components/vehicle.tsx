@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
-import { IVehivles } from './login'
 import { GlobalOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import { Avatar, Divider, List, Row, Skeleton, Col } from 'antd'
 
@@ -19,6 +18,7 @@ interface IStop {
   movieUrl: string
 }
 
+/*
 interface IRouteStop {
   routeId: string,
   stopId: string,
@@ -33,26 +33,47 @@ interface IRoute {
   vehicleId: string,
   routeStops: IRouteStop[]
 }
+*/
+
+interface IDrivingStop {
+  drivingId: string,
+  stopId: string,
+  ordinal: number,
+  weight: number,
+  duration: number,
+  comment: string,
+  eta: string,
+  stop: IStop
+}
+
+interface IDriving {
+  id: string,
+  routeId: string,
+  vehicleId: string,
+  date: string,
+  duration: number,
+  drivingStops: IDrivingStop[]
+}
 
 const Vehicle = () => {
   const navigate = useNavigate();
   const params = useParams();
   const { isLoading, data } = useQuery('repoData', () =>
-    fetch(`https://localhost:7090/api/Routes?vehicleId=${params.vehicleId}`).then(res =>
-      res.json() as Promise<IRoute[]> 
+    fetch(`https://localhost:7090/api/Vehicles/${params.vehicleId}/Driving`).then(res =>
+      res.json() as Promise<IDriving > 
     ) 
   )
   
 
   return (
     <div style={{padding: '5px 10px'}}>
-      {data && data.length > 0 ? 
+      {data ? 
       <>
-        <Divider orientation="left">{data[0].name}</Divider>
+        <Divider orientation="left">Dagens körning</Divider>
           <List
           style={{marginBottom: "50px"}}
           itemLayout="horizontal"
-          dataSource={data[0].routeStops}
+          dataSource={data.drivingStops}
           renderItem={(routeStop) => (
             <List.Item>
               <Skeleton loading={isLoading}>
