@@ -1,29 +1,41 @@
-import { Button, Row } from "antd";
+import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
-import styled from 'styled-components';
+import { Avatar, List, Skeleton  } from "antd";
+import { CarOutlined } from '@ant-design/icons';
+import { useQuery } from 'react-query'
 
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
 
-`
+interface IVehivles {
+    id: string,
+    name: string,
+}
 
 const Login = () => {
   const navigate = useNavigate();
-  return (
-  <Container>
-    <div>
+  const { isLoading, data } = useQuery('repoData', () =>
+    fetch('https://localhost:7090/api/Vehicles').then(res =>
+      res.json() as Promise<IVehivles[]> 
+    ) 
+  )
 
-    <Row>
-      <h1>Allwin</h1>
-    </Row>
-    <Row>
-      <Button onClick={() => navigate('home')}>Login</Button>
-    </Row>
-    </div>
-  </Container>)
+  console.log(data)
+  return (
+    data ? <List
+    itemLayout="horizontal"
+    dataSource={data}
+    renderItem={(item) => (
+      <List.Item>
+        <Skeleton loading={isLoading}>
+        <List.Item.Meta
+          avatar={<Avatar src={<CarOutlined />} />}
+          title={<a href="https://ant.design">{item.name}</a>}
+          description="Beskrivning av fordon"
+        />
+        <Button style={{margin: '0 15px'}} onClick={() => navigate('home')}>Välj</Button>
+      </Skeleton>
+      </List.Item>
+  )}
+  /> : null)
 }
 
 export default Login;
