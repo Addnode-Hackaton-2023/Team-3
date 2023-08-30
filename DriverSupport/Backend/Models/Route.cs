@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Backend.Models;
 
@@ -11,6 +12,7 @@ public partial class Route
 
     public Guid? VehicleId { get; set; }
 
+    [JsonIgnore]
     public virtual ICollection<Driving> Drivings { get; set; } = new List<Driving>();
 
     public virtual ICollection<RouteStop> RouteStops { get; set; } = new List<RouteStop>();
