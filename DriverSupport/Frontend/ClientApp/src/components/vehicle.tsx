@@ -1,59 +1,9 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import { GlobalOutlined, UnorderedListOutlined } from '@ant-design/icons';
-import { Avatar, Divider, List, Row, Skeleton, Col } from 'antd'
+import { Avatar, Divider, List, Row, Skeleton, Col } from 'antd';
+import { IDriving } from '../utils/dal';
 
-
-interface IStop {
-  id: string,
-  name: string,
-  type: number,
-  address: string,
-  contact: string,
-  notes: string,
-  duration: number,
-  latitude: number,
-  longitude: number,
-  image: string,
-  movieUrl: string
-}
-
-/*
-interface IRouteStop {
-  routeId: string,
-  stopId: string,
-  ordinal: number,
-  stop: IStop,
-  vehicle: IVehivles
-}
-
-interface IRoute {
-  id: string,
-  name: string,
-  vehicleId: string,
-  routeStops: IRouteStop[]
-}
-*/
-
-interface IDrivingStop {
-  drivingId: string,
-  stopId: string,
-  ordinal: number,
-  weight: number,
-  duration: number,
-  comment: string,
-  eta: string,
-  stop: IStop
-}
-
-interface IDriving {
-  id: string,
-  routeId: string,
-  vehicleId: string,
-  date: string,
-  duration: number,
-  drivingStops: IDrivingStop[]
-}
 
 const Vehicle = () => {
   const navigate = useNavigate();
@@ -62,7 +12,7 @@ const Vehicle = () => {
     fetch(`https://localhost:7090/api/Vehicles/${params.vehicleId}/Driving`).then(res =>
       res.json() as Promise<IDriving > 
     ) 
-  )
+  );
   
 
   return (
@@ -89,11 +39,11 @@ const Vehicle = () => {
       </> : null}
       <div style={{position: 'fixed', bottom: 0, left: 5, height: '50px', width: '100%', background: 'white'}}>
         <Row >
-          <Col style={{textAlign: 'center'}} span={10}>
+          <Col style={{textAlign: 'center'}} span={11}>
             <UnorderedListOutlined style={{fontSize: '2rem'}}  />
           </Col>
-          <Divider style={{fontSize: '2.3rem'}} type="vertical"/>
-          <Col style={{textAlign: 'center'}} span={10}>
+          <Divider style={{fontSize: '2.3rem'}} type="vertical" span={2}/>
+          <Col style={{textAlign: 'center'}} span={11}>
             <GlobalOutlined onClick={() => navigate(`../map/${params.vehicleId}`)} style={{fontSize: '2rem'}}  />
           </Col>
         </Row>
