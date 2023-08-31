@@ -39,7 +39,13 @@ const Vehicle = () => {
             <List.Item onClick={() => moveToEditMode(routeStop)}>
               <Skeleton loading={isLoading}>
                 <List.Item.Meta
-                  avatar={<Avatar icon={routeStop.stop.type === 0 ? <HomeOutlined /> : routeStop.stop.type === 1 ? <DownloadOutlined /> : <UploadOutlined />}/>}
+                  avatar={<Avatar style={{background: routeStop.stop.type === 0 ? 
+                    'rgba(10, 182, 235, 0.404)' : routeStop.stop.type === 1 ? 'rgba(10, 235, 48, 0.404)' :
+                    routeStop.stop.type === 2 ? 'rgba(235, 63, 10, 0.404)' : undefined}}
+                    icon={routeStop.stop.type === 0 ? 
+                      <HomeOutlined /> : routeStop.stop.type === 1 ? 
+                      <DownloadOutlined /> : <UploadOutlined />}
+                      />}
                   title={<span>{routeStop.stop.name}</span>}
                   description={routeStop.stop.address}
                 />
