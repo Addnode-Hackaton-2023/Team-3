@@ -27,9 +27,9 @@ const Vehicle = () => {
   
 
   return (!editMode ?
-    <div style={{padding: '5px 10px'}}>
+    <div >
       {data ? 
-      <>
+      <div style={{padding: '5px 10px'}}>
         <Divider orientation="left">Dagens körning</Divider>
           <List
           style={{marginBottom: "50px"}}
@@ -53,15 +53,15 @@ const Vehicle = () => {
             </List.Item>
             )}
           />
-      </> : null}
-      <div style={{position: 'fixed', bottom: 0, left: 5, height: '50px', width: '100%', background: 'white'}}>
-        <Row style={{paddingTop: '5px'}}>
+      </div> : null}
+      <div style={{position: 'fixed', bottom: 0, paddingTop: '5px', height: '50px', width: '100%', background: 'white'}}>
+        <Row >
           <Col style={{textAlign: 'center'}} span={11}>
             <UnorderedListOutlined onClick={() => navigate(`../vehicle/${params.vehicleId}`)} style={{fontSize: '2rem'}}  />
           </Col>
           <Divider style={{fontSize: '2.3rem'}} type="vertical"/>
           <Col style={{textAlign: 'center'}} span={11}>
-            <GlobalOutlined onClick={() => navigate(`../map/${params.vehicleId}`)} style={{fontSize: '2rem'}}  />
+            <GlobalOutlined onClick={() => navigate(`../map/${params.vehicleId}`)} style={{ fontSize: '2rem'}}  />
           </Col>
         </Row>
       </div>

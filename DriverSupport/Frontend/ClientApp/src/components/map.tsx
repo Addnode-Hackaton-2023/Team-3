@@ -12,7 +12,7 @@ import { apiURl } from "../utils/api";
 const Map = () => {
   const params = useParams();
 
-  const { data } = useQuery('repoData', () =>
+  const { data } = useQuery('drivingById', () =>
     fetch(`${apiURl}/Vehicles/${params.vehicleId}/Driving`).then(res => 
       res.json() as Promise<IDriving>
     ).
@@ -29,7 +29,7 @@ const Map = () => {
   return (
     <>
     <div className="mapDiv" style={{ height: 'calc(100vh - 60px)'}} ref={mapDiv}></div>
-    <div style={{position: 'fixed', bottom: 0, left: 5, height: '50px', width: '100%', background: 'white'}}>
+    <div style={{position: 'fixed', bottom: 0, paddingTop: '5px', height: '50px', width: '100%', background: 'white'}}>
         <Row >
           <Col style={{textAlign: 'center'}} span={11}>
             <UnorderedListOutlined  onClick={() => navigate(`../vehicle/${params.vehicleId}`)}style={{fontSize: '2rem'}}  />
