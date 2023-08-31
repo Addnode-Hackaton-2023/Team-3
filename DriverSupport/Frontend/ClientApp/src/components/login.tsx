@@ -1,4 +1,3 @@
-import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Avatar, List, Skeleton  } from "antd";
 import { CarOutlined } from '@ant-design/icons';
@@ -24,14 +23,14 @@ const Login = () => {
       itemLayout="horizontal"
       dataSource={data}
       renderItem={(item) => (
-        <List.Item>
+        <List.Item  onClick={() => navigate(`vehicle/${item.id}`)}>
           <Skeleton loading={isLoading}>
           <List.Item.Meta
             avatar={<Avatar icon={<CarOutlined />} />}
             title={<span>{item.name}</span>}
             description="Beskrivning av fordon"
           />
-          <Button style={{margin: '0 5px'}} onClick={() => navigate(`vehicle/${item.id}`)}>Välj</Button>
+         
         </Skeleton>
         </List.Item>
     )}
