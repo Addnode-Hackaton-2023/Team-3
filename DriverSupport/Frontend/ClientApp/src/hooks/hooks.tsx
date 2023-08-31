@@ -13,7 +13,7 @@ import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import Collection from "@arcgis/core/core/Collection";
 import esriConfig from '@arcgis/core/config';
 
-export const APIKEY = 'AAPK459c1630e7b646f6ba8a8d304ef19b9fZsh6ko3guwFJUEr0pslgn715Wz8tCZpFb3NbvB4CB18ze1EwbZYjNzHDjhZT_lR8'
+export const APIKEY = '' // Add APIKEY here
 
 const createStops = (drivingStops?: IDrivingStop[]) => {
 
