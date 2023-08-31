@@ -11,7 +11,6 @@ import Circle from "@arcgis/core/geometry/Circle";
 import Graphic from "@arcgis/core/Graphic";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import Collection from "@arcgis/core/core/Collection";
-import esriConfig from '@arcgis/core/config';
 
 export const APIKEY = ""
 
@@ -84,7 +83,7 @@ const createLayer = (stops: Collection<IDrivingStop>, color: string, name: strin
           family: "CalciteWebCoreIcons"
         }
       }
-    }
+    } as any
   });
 }
 
@@ -117,7 +116,7 @@ const createLayerWithoutPopups = (stops?: IDrivingStop[], color?: string, name?:
           family: "CalciteWebCoreIcons"
         }
       }
-    }
+    } as any
   });
 }
 
