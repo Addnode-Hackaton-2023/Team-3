@@ -11,7 +11,7 @@ import Circle from "@arcgis/core/geometry/Circle";
 import Graphic from "@arcgis/core/Graphic";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import Collection from "@arcgis/core/core/Collection";
-import PopupTemplate from "@arcgis/core/PopupTemplate";
+import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 
 const createStops = (drivingStops?: IDrivingStop[]) => {
 
@@ -20,7 +20,7 @@ const createStops = (drivingStops?: IDrivingStop[]) => {
   );
 }
 
-const createLayer = (stops: Collection<IDrivingStop>, color: string, name: string, symbol: string) => {
+const createLayer = (stops: Collection<IDrivingStop>, color: string, name: string) => {
   var graphics = new Collection<Graphic>(stops.map((s, index) => new Graphic({
     geometry: new Circle({
       center: s.stop.point,
@@ -76,7 +76,40 @@ const createLayer = (stops: Collection<IDrivingStop>, color: string, name: strin
       symbol: {
         type: "text",
         color: color,
-        text: symbol,
+        text: "\ue613",
+        font: {
+          size: 20,
+          family: "CalciteWebCoreIcons"
+        }
+      }
+    }
+  });
+}
+
+const createLayerWithoutPopups = (stops?: IDrivingStop[], color?: string, name?: string, icon?: string) => {
+  var graphics = new Collection<Graphic>(stops?.map((s, index) => new Graphic({
+    geometry: new Circle({
+      center: s.stop.point,
+      radius: 100,
+      radiusUnit: "meters"
+    }),
+    attributes: {
+      "ObjectID": index,
+    }
+  })));
+  return new FeatureLayer({
+    source: graphics,
+    objectIdField: name,
+    fields: [{
+      name: "ObjectID",
+      type: "oid",
+    }],
+    renderer: {  // overrides the layer's default renderer
+      type: "simple",
+      symbol: {
+        type: "text",
+        color: color,
+        text: icon,
         font: {
           size: 20,
           family: "CalciteWebCoreIcons"
@@ -107,11 +140,37 @@ export const useCreateMap = (mapRef: MutableRefObject<HTMLDivElement | null>, dr
         }
       });
 
-      const visitedLayer = createLayer(visited, "#0AEB30", "visited", "\ue612");
-      const notVisitedLayer = createLayer(notVisited, "#EB3F0A", "not visited", "\ue613");
-      console.log("visited: " + visited.length);
-      console.log("not visited: " + notVisited.length);
-      const map = new Map({ basemap: 'satellite', layers: [routeLayer, visitedLayer, notVisitedLayer]});
+      const visitedLayer = createLayer(visited, "#0AEB30", "visited");
+      const notVisitedLayer = createLayer(notVisited, "#EB3F0A", "not visited");
+      // const specialPlacesLayer = new GraphicsLayer();
+      // drivingStops?.forEach(s => {
+      //   if (s.stop.type != 1)
+      //   {
+      //     let color = "#0AB6EB";
+      //     if (s.stop.type === 2)
+      //       color = "#C60AEB";
+
+      //     specialPlacesLayer.add(new Graphic({
+      //       geometry: new Circle({
+      //         center: s.stop.point,
+      //         radius: 100,
+      //         radiusUnit: "meters"
+      //       }),
+      //       symbol: {
+      //         type: "simple-marker",
+      //         style: "none",
+      //         outline: {
+      //           width: 5,
+      //           color: color
+      //         }
+      //       }
+      //     }))
+      //   }
+      // });
+      const startLayer = createLayerWithoutPopups(drivingStops?.filter(s => s.stop.type === 0), "#0AB6EB", "Start", "\ue62f");
+      const endLayer = createLayerWithoutPopups(drivingStops?.filter(s => s.stop.type === 2), "#C60AEB", "End", "\ue67f");
+      
+      const map = new Map({ basemap: 'satellite', layers: [routeLayer, visitedLayer, notVisitedLayer, startLayer, endLayer]});
       view = new MapView({
         map: map,
         extent: routePolyline.extent,
