@@ -3,7 +3,7 @@ import { IDrivingStop } from "../utils/dal"
 import TextArea from "antd/es/input/TextArea";
 import { apiURl, putDrivingStop } from "../utils/api";
 import {queryClient } from '../main';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 
 const { Text, Title } = Typography
@@ -13,7 +13,7 @@ interface IDrivingStopForm {
   setEditMode: (value: boolean) => void;
 }
 const DrivingStopForm = ({drivingStop, setEditMode}: IDrivingStopForm) => {
-  const [imgSrc, setImgSrc] = useState<string>();
+  const [] = useState<string>();
 
   const onFinish = (values: IDrivingStop) => {
     console.log('Success:', values);
