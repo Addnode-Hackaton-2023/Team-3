@@ -140,6 +140,7 @@ export const useCreateMap = (mapRef: MutableRefObject<HTMLDivElement | null>, dr
             visited.add(s);
         }
       });
+      esriConfig.apiKey = APIKEY;
 
       const visitedLayer = createLayer(visited, "#058019", "visited");
       const notVisitedLayer = createLayer(notVisited, "#0AEB30", "not visited");
