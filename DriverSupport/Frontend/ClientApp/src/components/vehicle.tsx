@@ -5,12 +5,13 @@ import { Avatar, Divider, List, Row, Skeleton, Col } from 'antd';
 import { IDriving, IDrivingStop } from '../utils/dal';
 import { useState } from 'react';
 import DrivingStopForm from './DrivingStopForm';
+import { apiURl } from '../utils/api';
 
 const Vehicle = () => {
   const navigate = useNavigate();
   const params = useParams();
-  const { isLoading, data } = useQuery('repoData', () =>
-    fetch(`https://localhost:7090/api/Vehicles/${params.vehicleId}/Driving`).then(res =>
+  const { isLoading, data } = useQuery('driving', () =>
+    fetch(`${apiURl}/Vehicles/${params.vehicleId}/Driving`).then(res =>
       res.json() as Promise<IDriving > 
     ) 
   );
