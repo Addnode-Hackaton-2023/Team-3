@@ -1,8 +1,9 @@
 import { Button, Col, Form, Input, Row, Typography } from "antd"
 import { IDrivingStop } from "../utils/dal"
 import TextArea from "antd/es/input/TextArea";
-import { putDrivingStop } from "../utils/api";
+import { apiURl, putDrivingStop } from "../utils/api";
 import {queryClient } from '../main';
+import { useEffect, useState } from "react";
 
 
 const { Text, Title } = Typography
@@ -12,7 +13,7 @@ interface IDrivingStopForm {
   setEditMode: (value: boolean) => void;
 }
 const DrivingStopForm = ({drivingStop, setEditMode}: IDrivingStopForm) => {
-  console.log('driving stop ', drivingStop)
+  const [imgSrc, setImgSrc] = useState<string>();
 
   const onFinish = (values: IDrivingStop) => {
     console.log('Success:', values);
@@ -74,6 +75,7 @@ const DrivingStopForm = ({drivingStop, setEditMode}: IDrivingStopForm) => {
           </Button>
         </Form.Item>
       </Form>
+      {drivingStop?.stop.hasImage && <img style={{width: '100%', height: 'auto'}} src={`${apiURl}/Stops/${drivingStop.stopId}/Image`} />}
   </div>
   )
 }

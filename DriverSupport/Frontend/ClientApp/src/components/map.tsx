@@ -5,6 +5,7 @@ import { useQuery } from 'react-query'
 import { useCreateMap } from "../hooks/hooks";
 import { IDriving } from '../utils/dal';
 import { GlobalOutlined, UnorderedListOutlined } from '@ant-design/icons';
+import { apiURl } from "../utils/api";
 
 
 
@@ -12,7 +13,7 @@ const Map = () => {
   const params = useParams();
 
   const { data } = useQuery('repoData', () =>
-    fetch(`https://localhost:7090/api/Vehicles/${params.vehicleId}/Driving`).then(res => 
+    fetch(`${apiURl}/Vehicles/${params.vehicleId}/Driving`).then(res => 
       res.json() as Promise<IDriving>
     ).
     then(driving => {

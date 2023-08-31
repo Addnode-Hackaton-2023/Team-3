@@ -41,7 +41,7 @@ const Vehicle = () => {
                 <List.Item.Meta
                   avatar={<Avatar style={{background: routeStop.stop.type === 0 ? 
                     'rgba(10, 182, 235, 0.404)' : routeStop.stop.type === 1 ? 'rgba(10, 235, 48, 0.404)' :
-                    routeStop.stop.type === 2 ? 'rgba(235, 63, 10, 0.404)' : undefined}}
+                    routeStop.stop.type === 2 ? 'rgba(198, 10, 235, 0.404)' : undefined}}
                     icon={routeStop.stop.type === 0 ? 
                       <HomeOutlined /> : routeStop.stop.type === 1 ? 
                       <DownloadOutlined /> : <UploadOutlined />}
@@ -55,7 +55,7 @@ const Vehicle = () => {
           />
       </> : null}
       <div style={{position: 'fixed', bottom: 0, left: 5, height: '50px', width: '100%', background: 'white'}}>
-        <Row >
+        <Row style={{paddingTop: '5px'}}>
           <Col style={{textAlign: 'center'}} span={11}>
             <UnorderedListOutlined onClick={() => navigate(`../vehicle/${params.vehicleId}`)} style={{fontSize: '2rem'}}  />
           </Col>

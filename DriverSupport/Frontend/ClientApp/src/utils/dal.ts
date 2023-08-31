@@ -7,6 +7,7 @@ export interface IStop {
     notes: string,
     duration: number,
     point: any,
+    hasImage: boolean,
     image: string,
     movieUrl: string
   }
