@@ -142,8 +142,8 @@ export const useCreateMap = (mapRef: MutableRefObject<HTMLDivElement | null>, dr
         }
       });
 
-      const visitedLayer = createLayer(visited, "#0AEB30", "visited");
-      const notVisitedLayer = createLayer(notVisited, "#EB3F0A", "not visited");
+      const visitedLayer = createLayer(visited, "#058019", "visited");
+      const notVisitedLayer = createLayer(notVisited, "#0AEB30", "not visited");
       // const specialPlacesLayer = new GraphicsLayer();
       // drivingStops?.forEach(s => {
       //   if (s.stop.type != 1)
