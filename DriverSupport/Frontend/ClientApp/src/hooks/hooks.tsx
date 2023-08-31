@@ -11,8 +11,9 @@ import Circle from "@arcgis/core/geometry/Circle";
 import Graphic from "@arcgis/core/Graphic";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import Collection from "@arcgis/core/core/Collection";
+import esriConfig from '@arcgis/core/config';
 
-export const APIKEY = ""
+export const APIKEY = '' // Add APIKEY here
 
 const createStops = (drivingStops?: IDrivingStop[]) => {
 
