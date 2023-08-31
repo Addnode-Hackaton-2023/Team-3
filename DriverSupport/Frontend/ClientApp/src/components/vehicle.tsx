@@ -1,9 +1,10 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
-import { GlobalOutlined, UnorderedListOutlined } from '@ant-design/icons';
+import { GlobalOutlined, UnorderedListOutlined, HomeOutlined, UploadOutlined, DownloadOutlined } from '@ant-design/icons';
 import { Avatar, Divider, List, Row, Skeleton, Col } from 'antd';
-import { IDriving } from '../utils/dal';
-
+import { IDriving, IDrivingStop } from '../utils/dal';
+import { useState } from 'react';
+import DrivingStopForm from './DrivingStopForm';
 
 const Vehicle = () => {
   const navigate = useNavigate();
@@ -13,9 +14,18 @@ const Vehicle = () => {
       res.json() as Promise<IDriving > 
     ) 
   );
+
+  const [editMode, setEditMode] = useState(false);
+  const [drivingStop, setDrivingStop] = useState<IDrivingStop>()
+
+  const moveToEditMode = (selectedStop: IDrivingStop) => {
+    setEditMode(true);
+    setDrivingStop(selectedStop);
+  }
+
   
 
-  return (
+  return (!editMode ?
     <div style={{padding: '5px 10px'}}>
       {data ? 
       <>
@@ -25,10 +35,10 @@ const Vehicle = () => {
           itemLayout="horizontal"
           dataSource={data.drivingStops}
           renderItem={(routeStop) => (
-            <List.Item>
+            <List.Item onClick={() => moveToEditMode(routeStop)}>
               <Skeleton loading={isLoading}>
                 <List.Item.Meta
-                  avatar={<Avatar />}
+                  avatar={<Avatar icon={routeStop.stop.type === 0 ? <HomeOutlined /> : routeStop.stop.type === 1 ? <DownloadOutlined /> : <UploadOutlined />}/>}
                   title={<span>{routeStop.stop.name}</span>}
                   description={routeStop.stop.address}
                 />
@@ -48,7 +58,8 @@ const Vehicle = () => {
           </Col>
         </Row>
       </div>
-  </div>)
+  </div> : <DrivingStopForm drivingStop={drivingStop} setEditMode={setEditMode} />
+  )
 }
 
 export default Vehicle;
