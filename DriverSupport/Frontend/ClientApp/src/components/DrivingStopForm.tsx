@@ -3,7 +3,6 @@ import { IDrivingStop } from "../utils/dal"
 import TextArea from "antd/es/input/TextArea";
 import { apiURl, putDrivingStop } from "../utils/api";
 import {queryClient } from '../main';
-import { useState } from "react";
 
 
 const { Text, Title } = Typography
@@ -13,7 +12,6 @@ interface IDrivingStopForm {
   setEditMode: (value: boolean) => void;
 }
 const DrivingStopForm = ({drivingStop, setEditMode}: IDrivingStopForm) => {
-  const [] = useState<string>();
 
   const onFinish = (values: IDrivingStop) => {
     console.log('Success:', values);
@@ -42,7 +40,7 @@ const DrivingStopForm = ({drivingStop, setEditMode}: IDrivingStopForm) => {
         initialValues={drivingStop}
         onFinish={onFinish}
       >
-        <Form.Item<IDrivingStop>
+        {drivingStop?.stop.type === 1 && <> <Form.Item<IDrivingStop>
           label="Hämtad vikt (Kg)"
           name="weight"
           rules={[{ required: true, message: 'Ange vikt' }]}
@@ -54,7 +52,7 @@ const DrivingStopForm = ({drivingStop, setEditMode}: IDrivingStopForm) => {
           name="duration"
         >
           <Input placeholder="Ange hur lång tid stoppet tog" />
-        </Form.Item>
+        </Form.Item></>}
         <Form.Item<IDrivingStop>
           label="Kommentar"
           name="comment"
