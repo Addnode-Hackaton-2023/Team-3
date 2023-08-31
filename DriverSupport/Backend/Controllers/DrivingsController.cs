@@ -47,5 +47,32 @@ namespace Backend.Controllers
 
             return driving;
         }
+
+        [HttpPut("{drivingId}/Stops/{Ordinal}")]
+        public async Task<IActionResult> PutDrivingStop(Guid drivingId, int ordinal, DrivingStopData drivingStopData)
+        {
+            var driving = await _context.Drivings.Include(d => d.DrivingStops).FirstOrDefaultAsync(d => d.Id == drivingId);
+
+            if (driving == null)
+            {
+                return NotFound();
+            }
+
+            var drivingStop = driving.DrivingStops.FirstOrDefault(ds => ds.Ordinal == ordinal);
+
+            if (drivingStop == null)
+            {
+                return NotFound();
+            }
+
+            drivingStop.Duration = drivingStopData.Duration;
+            drivingStop.Comment = drivingStopData.Comment;
+            drivingStop.Weight = drivingStopData.Weight;
+            drivingStop.Eta = drivingStopData.Eta;
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }
