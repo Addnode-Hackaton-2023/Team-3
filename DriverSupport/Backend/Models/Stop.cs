@@ -26,7 +26,11 @@ public partial class Stop
     [NotMapped]
     public Esri.Point Point { get { return new Esri.Point() { X = ((Point)Position).X, Y = ((Point)Position).Y }; } }
 
+    [JsonIgnore]
     public byte[]? Image { get; set; }
+
+    [NotMapped]
+    public bool HasImage { get { return Image != null; } }
 
     public string? MovieUrl { get; set; }
 

@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Backend.Models;
+using System.Net;
+using System.Text;
+using Azure;
 
 namespace Backend.Controllers
 {
@@ -24,10 +27,11 @@ namespace Backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Stop>>> GetStops()
         {
-          if (_context.Stops == null)
-          {
-              return NotFound();
-          }
+            if (_context.Stops == null)
+            {
+                return NotFound();
+            }
+
             return await _context.Stops.ToListAsync();
         }
 
@@ -35,10 +39,10 @@ namespace Backend.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Stop>> GetStop(Guid id)
         {
-          if (_context.Stops == null)
-          {
-              return NotFound();
-          }
+            if (_context.Stops == null)
+            {
+                return NotFound();
+            }
             var stop = await _context.Stops.FindAsync(id);
 
             if (stop == null)
@@ -47,6 +51,25 @@ namespace Backend.Controllers
             }
 
             return stop;
+        }
+
+        [HttpGet("{id}/Image")]
+        public async Task<IActionResult> GetStopImage(Guid id)
+        {
+            if (_context.Stops == null)
+            {
+                return NotFound();
+            }
+            var stop = await _context.Stops.FindAsync(id);
+
+            if (stop == null || stop.Image == null)
+            {
+                return NotFound();
+            }
+
+            Response.Headers["Content-Disposition"] = "inline;filename=\"" + Uri.EscapeDataString(stop.Name + "-" + stop.Address) + ".png\"";
+
+            return File(stop.Image, "image/png");
         }
 
         // PUT: api/Stops/5
@@ -85,10 +108,10 @@ namespace Backend.Controllers
         [HttpPost]
         public async Task<ActionResult<Stop>> PostStop(Stop stop)
         {
-          if (_context.Stops == null)
-          {
-              return Problem("Entity set 'AddHack3Context.Stops'  is null.");
-          }
+            if (_context.Stops == null)
+            {
+                return Problem("Entity set 'AddHack3Context.Stops'  is null.");
+            }
             _context.Stops.Add(stop);
             try
             {
