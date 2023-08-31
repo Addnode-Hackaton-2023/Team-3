@@ -1,6 +1,9 @@
-import { Button, Col, Divider, Form, Input, Row, Typography } from "antd"
+import { Button, Col, Form, Input, Row, Typography } from "antd"
 import { IDrivingStop } from "../utils/dal"
 import TextArea from "antd/es/input/TextArea";
+import { putDrivingStop } from "../utils/api";
+import {queryClient } from '../main';
+
 
 const { Text, Title } = Typography
 
@@ -13,13 +16,12 @@ const DrivingStopForm = ({drivingStop, setEditMode}: IDrivingStopForm) => {
 
   const onFinish = (values: IDrivingStop) => {
     console.log('Success:', values);
-    const requestOptions = {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(values)
-  };
-  fetch(`https://localhost:7090/api/Drivings/${drivingStop?.drivingId}/Stops/${drivingStop?.ordinal}`, requestOptions)
-      .then(res => setEditMode(false));
+    
+      if (drivingStop) {
+        putDrivingStop(values, drivingStop.drivingId, drivingStop.ordinal);
+        queryClient.invalidateQueries(['driving'])
+        setEditMode(false);
+      }
   };
 
   
@@ -29,6 +31,7 @@ const DrivingStopForm = ({drivingStop, setEditMode}: IDrivingStopForm) => {
         <Col span={12}><Title level={3} >{drivingStop?.stop.name}</Title></Col>
         <Col span={12}><Text type="secondary">{drivingStop?.stop.address}</Text></Col>
       </Row>
+      <Text strong>Kontakt: <Text underline>{drivingStop?.stop.contact}</Text></Text>
       
       
       <Form
@@ -62,9 +65,12 @@ const DrivingStopForm = ({drivingStop, setEditMode}: IDrivingStopForm) => {
           placeholder="Skriv en kommentar"
         />
         </Form.Item>
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+        <Form.Item wrapperCol={{ offset: 6, span: 18 }}>
           <Button type="primary" htmlType="submit">
             Spara
+          </Button>
+          <Button onClick={() => setEditMode(false)} style={{marginLeft: '15px'}}>
+            Avbryt
           </Button>
         </Form.Item>
       </Form>

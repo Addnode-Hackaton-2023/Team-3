@@ -6,6 +6,10 @@ import RouteLayer from "@arcgis/core/layers/RouteLayer";
 import Stop from "@arcgis/core/rest/support/Stop";
 import { IDriving, IDrivingStop } from '../utils/dal';
 import RouteParameters from "@arcgis/core/rest/support/RouteParameters";
+import Track from "@arcgis/core/widgets/Track";
+import Circle from "@arcgis/core/geometry/Circle";
+import Graphic from "@arcgis/core/Graphic";
+import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 
 const createStops = (drivingStops?: IDrivingStop[]) => {
 
@@ -25,13 +29,46 @@ export const useCreateMap = (mapRef: MutableRefObject<HTMLDivElement | null>, dr
   useEffect(() => {
     let view: MapView;
     const routePolyline = Polyline.fromJSON(driving?.routePolyline);
-    const initializeMap = async (mapRef: MutableRefObject<string | HTMLDivElement | null>, routeLayer: RouteLayer) => {
-      const map = new Map({ basemap: 'satellite', layers: [routeLayer]});
+    const initializeMap = async (mapRef: MutableRefObject<string | HTMLDivElement | null>, routeLayer: RouteLayer, drivingStops?: IDrivingStop[]) => {
+      const circleLayer = new GraphicsLayer();
+      drivingStops?.forEach(s => {
+        if (s.stop.type === 1)
+        {
+          let color = "red";
+          if (s.weight != null)
+            color = "green";
+
+          circleLayer.add(new Graphic({
+            geometry: new Circle({
+              center: s.stop.point,
+              radius: 100,
+              radiusUnit: "meters"
+            }),
+            symbol: {
+              type: "simple-marker",
+              style: "none",
+              outline: {
+                width: 5,
+                color: color
+              }
+            }
+          }))
+        }
+      });
+
+      const map = new Map({ basemap: 'satellite', layers: [routeLayer, circleLayer]});
       view = new MapView({
         map: map,
         extent: routePolyline.extent,
         container: mapRef.current!
       });
+
+      let trackWidget = new Track({
+        view: view
+      });
+      
+      view.ui.add(trackWidget, "top-left");
+      trackWidget.start();
     };
 
 
@@ -46,8 +83,7 @@ export const useCreateMap = (mapRef: MutableRefObject<HTMLDivElement | null>, dr
     
     getResult(routeLayer).then(res => {
       routeLayer.update(res as any);
-      initializeMap(mapRef, routeLayer)
-
+      initializeMap(mapRef, routeLayer, driving?.drivingStops)
     })
 
     return () => view?.destroy();

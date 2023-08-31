@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Avatar, List, Skeleton  } from "antd";
 import { CarOutlined } from '@ant-design/icons';
 import { useQuery } from 'react-query'
+import { apiURl } from "../utils/api";
 
 
 export interface IVehivles {
@@ -12,7 +13,7 @@ export interface IVehivles {
 const Login = () => {
   const navigate = useNavigate();
   const { isLoading, data } = useQuery('repoData', () =>
-    fetch('https://localhost:7090/api/Vehicles').then(res =>
+    fetch(`${apiURl}/Vehicles`).then(res =>
       res.json() as Promise<IVehivles[]> 
     ) 
   )

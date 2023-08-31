@@ -7,7 +7,7 @@ import Vehicle from './components/vehicle';
 import Map from './components/map';
 import { QueryClient, QueryClientProvider } from 'react-query'
 
-const queryClient = new QueryClient()
+export const queryClient = new QueryClient()
 
 
 const router = createBrowserRouter([
