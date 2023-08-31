@@ -45,7 +45,7 @@ export const useCreateMap = (mapRef: MutableRefObject<HTMLDivElement | null>, dr
     })
     
     getResult(routeLayer).then(res => {
-      routeLayer.update(res);
+      routeLayer.update(res as any);
       initializeMap(mapRef, routeLayer)
 
     })
