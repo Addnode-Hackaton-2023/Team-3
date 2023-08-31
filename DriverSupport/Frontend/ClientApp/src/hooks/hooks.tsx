@@ -11,7 +11,9 @@ import Circle from "@arcgis/core/geometry/Circle";
 import Graphic from "@arcgis/core/Graphic";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import Collection from "@arcgis/core/core/Collection";
-import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
+import esriConfig from '@arcgis/core/config';
+
+export const APIKEY = 'AAPK459c1630e7b646f6ba8a8d304ef19b9fZsh6ko3guwFJUEr0pslgn715Wz8tCZpFb3NbvB4CB18ze1EwbZYjNzHDjhZT_lR8'
 
 const createStops = (drivingStops?: IDrivingStop[]) => {
 
@@ -120,7 +122,7 @@ const createLayerWithoutPopups = (stops?: IDrivingStop[], color?: string, name?:
 }
 
 const parameters = new RouteParameters({
-  apiKey: "AAPK459c1630e7b646f6ba8a8d304ef19b9fZsh6ko3guwFJUEr0pslgn715Wz8tCZpFb3NbvB4CB18ze1EwbZYjNzHDjhZT_lR8"
+  apiKey: APIKEY
 })
 
 export const useCreateMap = (mapRef: MutableRefObject<HTMLDivElement | null>, driving?: IDriving) => {
@@ -170,7 +172,7 @@ export const useCreateMap = (mapRef: MutableRefObject<HTMLDivElement | null>, dr
       const startLayer = createLayerWithoutPopups(drivingStops?.filter(s => s.stop.type === 0), "#0AB6EB", "Start", "\ue62f");
       const endLayer = createLayerWithoutPopups(drivingStops?.filter(s => s.stop.type === 2), "#C60AEB", "End", "\ue67f");
       
-      const map = new Map({ basemap: 'satellite', layers: [routeLayer, visitedLayer, notVisitedLayer, startLayer, endLayer]});
+      const map = new Map({ basemap: 'arcgis-topographic', layers: [routeLayer, visitedLayer, notVisitedLayer, startLayer, endLayer]});
       view = new MapView({
         map: map,
         extent: routePolyline.extent,
