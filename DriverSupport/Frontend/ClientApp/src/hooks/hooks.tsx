@@ -51,7 +51,7 @@ export const useCreateMap = (mapRef: MutableRefObject<HTMLDivElement | null>, dr
                 width: 5,
                 color: color
               }
-            }
+            } as any
           }))
         }
       });
