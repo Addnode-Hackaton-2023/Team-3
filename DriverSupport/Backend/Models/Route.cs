@@ -28,6 +28,13 @@ public partial class Route
                     Paths = new List<double[][]>() { line.Coordinates.Select(c => new double[] { c.X, c.Y }).ToArray() }
                 };
             }
+            else if (Line is MultiLineString multiLine)
+            {
+                return new Esri.Polyline()
+                {
+                    Paths = multiLine.Geometries.Select(g => ((LineString)g).Coordinates.Select(c => new double[] { c.X, c.Y }).ToArray()).ToList()
+                };
+            }
             return null;
         } 
     }
